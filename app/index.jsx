@@ -40,8 +40,8 @@ export default function App() {
             <View className="w-full mt-[50%]">
               <CustomButton
                 title="Get Started"
-                handlePress={() => router.push("/sign-up")}
-                containerStyles="w-full py-3"
+                handlePress={() => router.push("/log-in")}
+                containerStyles="w-full"
               />
             </View>
           </View>
