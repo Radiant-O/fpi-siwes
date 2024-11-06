@@ -2,9 +2,9 @@ import {
   View,
   Text,
   ScrollView,
-  SafeAreaView,
   TouchableOpacity,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import {  useRouter } from "expo-router";
 import { BellIcon, BookOpen, Calendar, ClipboardCheck } from "lucide-react-native";
@@ -55,9 +55,9 @@ const Home = () => {
   ];
 
   return (
-    <SafeAreaView className="bg-primary h-full">
-      <ScrollView>
-        <View className="h-full w-full px-5 py-6 font-pregular">
+    <SafeAreaView className=" flex-1 bg-primary h-full">
+      <ScrollView className=" flex-1 px-4 py-6">
+        <View className="h-full w-full font-pregular">
           <View className="flex flex-row justify-between items-center">
             <View className="flex  justify-start items-start">
               <Text className="text-gray-500 text-lg"> Welcome back 👋, </Text>

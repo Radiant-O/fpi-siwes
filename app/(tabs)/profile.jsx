@@ -25,82 +25,94 @@ const profile = () => {
       <SafeAreaView className="flex-1 bg-primary">
         <ScrollView className="flex-1 px-4 py-6">
           <View className="items-center mb-6">
-            <View className="w-24 h-24 bg-gray-400 rounded-full mb-3">
-              <Text className="text-xl font-bold text-gray-800">
-                Hello Name
-              </Text>
-              <Text className="text-gray-500">2/11/QAE</Text>
-            </View>
-            <ProfileCard>
-              <Text> SIWES Information </Text>
-              <View>
-                <View>
-                  <Text>Department</Text>
-                  <Text> Student department</Text>
-                </View>
-                <View>
-                  <Text>Company</Text>
-                  <Text>Student Company</Text>
-                </View>
-                <View>
-                  <Text>Supervisor</Text>
-                  <Text>Student Supervisor</Text>
-                </View>
-              </View>
-            </ProfileCard>
+            <View className="w-24 h-24 bg-gray-400 rounded-full mb-3" />
+            <Text className="text-xl font-bold text-gray-800">
+              {studentInfo.name}
+            </Text>
+            <Text className="text-gray-500">{studentInfo.matricNumber}</Text>
+          </View>
 
-            <ProfileCard>
-              <Text>Progress Tracking</Text>
+          <ProfileCard className="mb-6 p-4">
+            <Text className="text-lg font-psemibold mb-4">
+              SIWES Information
+            </Text>
+            <View className="space-y-3">
               <View>
-                <View>
-                  <Text>Supervisor Visits</Text>
-                  <View className="flex-row space-x-2">
-                    {[1, 2, 3].map((visit) => (
-                      <View
-                        key={visit}
-                        className={`w-8 h-8 rounded-full flex-items-center 
+                <Text className="text-gray-500">Department</Text>
+                <Text className="text-gray-800 font-pmedium">
+                  {studentInfo.department}
+                </Text>
+              </View>
+              <View>
+                <Text className="text-gray-500">Company</Text>
+                <Text className="text-gray-800 font-pmedium">
+                  {studentInfo.company}
+                </Text>
+              </View>
+              <View>
+                <Text className="text-gray-500">Supervisor</Text>
+                <Text className="text-gray-800 font-pmedium">
+                  {studentInfo.supervisor}
+                </Text>
+              </View>
+            </View>
+          </ProfileCard>
+
+          <ProfileCard className="mb-6 p-4">
+            <Text className="text-lg font-psemibold mb-4">Progress Tracking</Text>
+            <View className="space-y-4">
+              <View>
+                <Text className="text-gray-500 mb-1">Supervisor Visits</Text>
+                <View className="flex-row space-x-2">
+                  {[1, 2, 3].map((visit) => (
+                    <View
+                      key={visit}
+                      className={`w-8 h-8 rounded-full flex items-center 
                           justify-center ${
                             visit <= studentInfo.supervisorVisits
                               ? "bg-secondary-100"
                               : "bg-gray-200"
                           }`}
+                    >
+                      <Text
+                        className={
+                          visit <= studentInfo.supervisorVisits
+                            ? "text-black"
+                            : "text-gray-300"
+                        }
                       >
-                        <Text
-                          className={
-                            visit <= studentInfo.supervisorVisits
-                              ? "text-black"
-                              : "text-gray-300"
-                          }
-                        >
-                          {visit}
-                        </Text>
-                      </View>
-                    ))}
-                  </View>
-                </View>
-                <View>
-                  <Text>Logbook Progress</Text>
-                  <View>
-                    <View
-                      className="bg-blue-500 h-2.5 rounded-full"
-                      style={{ width: `${studentInfo.progress.logbook}%` }}
-                    />
-                  </View>
-                  <Text className="text-sm text-gry-500 mt-1">
-                    {studentInfo.progress.logbook}% Complete
-                  </Text>
-                </View>
-                <View>
-                  <Text className="text-gray-500">Technical Report</Text>
-                  <Text className="text-gray-700 font-pmedium">{ studentInfo.progress.technicalReport }</Text>
-                </View>
-                <View>
-                  <Text className="text-gray-500">Overall Grade</Text>
-                  <Text className="text-gray-700 font-pmedium">{ studentInfo.progress.overallGrade }</Text>
+                        {visit}
+                      </Text>
+                    </View>
+                  ))}
                 </View>
               </View>
-            </ProfileCard>
-          </View>
+              <View>
+                <Text className="text-gray-500 mb-1">Logbook Progress</Text>
+                <View className="w-full bg-gray-200 rounded-full h-2.5">
+                  <View
+                    className="bg-blue-500 h-2.5 rounded-full"
+                    style={{ width: `${studentInfo.progress.logbook}%` }}
+                  />
+                </View>
+                <Text className="text-sm text-gry-500 mt-1">
+                  {studentInfo.progress.logbook}% Complete
+                </Text>
+              </View>
+              <View>
+                <Text className="text-gray-500">Technical Report</Text>
+                <Text className="text-gray-700 font-pmedium">
+                  {studentInfo.progress.technicalReport}
+                </Text>
+              </View>
+              <View>
+                <Text className="text-gray-500">Overall Grade</Text>
+                <Text className="text-gray-700 font-pmedium">
+                  {studentInfo.progress.overallGrade}
+                </Text>
+              </View>
+            </View>
+          </ProfileCard>
         </ScrollView>
       </SafeAreaView>
     </View>
