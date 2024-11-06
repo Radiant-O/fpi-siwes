@@ -6,28 +6,51 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
+import {  useRouter } from "expo-router";
 import { BellIcon, BookOpen, Calendar, ClipboardCheck } from "lucide-react-native";
+import QuickActionCard from "../../components/QuickActionCard";
+import DocumentCard from "../../components/DocumentCard";
 
-const Home = ({ navigation }) => {
+const Home = () => {
+
+  const router = useRouter();
 
   const quickActions = [
     {
       icon: ClipboardCheck,
       title: "Daily Log",
       description: "Record today's activities",
-      route: "DailyLog",
+      route: "(tabs)/logtab",
     },
     {
       icon: BookOpen,
       title: "Weekly Report",
       description: "Submit weekly summary",
-      route: "WeeklyReport",
+      route: "/weekly-report",
+    },
+    // {
+    //   icon: Calendar,
+    //   title: "Monthly Report",
+    //   description: "Submit monthly report",
+    //   route: "/monthly-report",
+    // },
+  ];
+
+  const documents = [
+    {
+      title: "Attendance",
+      description: "Daily Attendance Record",
+      status: "Pending",
     },
     {
-      icon: Calendar,
-      title: "Monthly Report",
-      description: "Submit monthly report",
-      route: "MonthlyReport",
+      title: "Letter of Acceptance",
+      description: "Company acceptance letter",
+      status: "Submitted",
+    },
+    {
+      title: "ITF Form",
+      description: "Siwes form",
+      status: "Pending",
     },
   ];
 
@@ -82,19 +105,35 @@ const Home = ({ navigation }) => {
             </View>
           </View>
 
-          <View>
-            <Text className="">Quick Actions</Text>
-            <View>
+          <View className="p-4">
+            <Text className="text-lg font-bold text-gray mb-4">
+              Quick Actions
+            </Text>
+            <View className="flex-row flex-wrap justify-between">
               {quickActions.map((action, index) => (
                 <QuickActionCard
                   key={index}
                   icon={action.icon}
                   title={action.title}
                   description={action.description}
-                  onPress={() => navigation.navigate(action.route)}
+                  onPress={() => router.replace(action.route)}
                 />
               ))}
             </View>
+          </View>
+
+          <View className="p-4">
+            <Text className="text-lg font-bold text-gray mb-4">
+              Required Documents
+            </Text>
+            {documents.map((doc, index) => (
+              <DocumentCard
+                key={index}
+                title={doc.title}
+                description={doc.description}
+                status={doc.status}
+              />
+            ))}
           </View>
         </View>
       </ScrollView>
