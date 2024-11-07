@@ -2,8 +2,10 @@ import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileCard from "../../components/ProfileCard";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const profile = () => {
+  const { user, setUser, setIsLoggedIn } = useGlobalContext();
   const studentInfo = {
     name: "John Doe",
     matricNumber: "CSC/2019/0123",
@@ -19,6 +21,8 @@ const profile = () => {
       overallGrade: "Pending",
     },
   };
+
+  console.log(user)
 
   return (
    

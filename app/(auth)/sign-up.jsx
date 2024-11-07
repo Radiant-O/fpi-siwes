@@ -18,6 +18,7 @@ import { registerStudent } from "../../lib/appwrite.js";
 const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+ 
   const [form, setForm] = useState({
     fullName: "",
     matric: "",
@@ -49,23 +50,6 @@ const SignUp = () => {
         )
         }
 
-      // const requiredFields = [
-      //   "fullName",
-      //   "mail",
-      //   "password",
-      //   "matric",
-      //   "department",
-      //   "level",
-      //   "companyName",
-      //   "companyAdd",
-      // ];
-
-      // const missingFields = requiredFields.filter((field) => !FormData[field]);
-      // if (missingFields.length > 0) {
-      //   throw new Error(
-      //     `Please fill in all required fields: ${missingFields.join(", ")}`
-      //   );
-      // }
 
       await registerStudent(form);
 

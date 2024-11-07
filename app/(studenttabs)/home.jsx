@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {useState} from "react";
+import { useState } from "react";
 import { useRouter } from "expo-router";
 import {
   BellIcon,
@@ -56,18 +56,17 @@ const Home = () => {
 
   const calculateDaysLeft = () => {
     // if()
+  };
 
-  }
-
-   if (loading) {
-     return (
-       <SafeAreaView className="flex-1 bg-white">
-         <View className="flex-1 justify-center items-center">
-           <Text className="text-gray-600">Loading...</Text>
-         </View>
-       </SafeAreaView>
-     );
-   }
+  // if (loading) {
+  //   return (
+  //     <SafeAreaView className="flex-1 bg-white">
+  //       <View className="flex-1 justify-center items-center">
+  //         <Text className="text-gray-600">Loading...</Text>
+  //       </View>
+  //     </SafeAreaView>
+  //   );
+  // }
 
   return (
     <SafeAreaView className=" flex-1 bg-primary">

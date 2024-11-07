@@ -1,138 +1,101 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import { useRouter } from "expo-router";
-import {
-  BellIcon,
-  BookOpen,
-  Calendar,
-  ClipboardCheck,
-} from "lucide-react-native";
-import QuickActionCard from "../../components/QuickActionCard";
-import DocumentCard from "../../components/DocumentCard";
+import ProfileCard from "../../components/ProfileCard";
 
 const Home = () => {
   const router = useRouter();
 
-  const quickActions = [
-    {
-      icon: ClipboardCheck,
-      title: "Daily Log",
-      description: "Record today's activities",
-      route: "(studenttabs)/logtab",
-    },
-    {
-      icon: BookOpen,
-      title: "Weekly Report",
-      description: "Submit weekly summary",
-      route: "/weekly-report",
-    },
-    // {
-    //   icon: Calendar,
-    //   title: "Monthly Report",
-    //   description: "Submit monthly report",
-    //   route: "/monthly-report",
-    // },
+  const stats = [
+    { title: "Students", value: "12" },
+    { title: "Pending Reviews", value: "5" },
+    { title: "This Week Report", value: "8" },
+    { title: "Visits Due", value: "3" },
   ];
 
-  const documents = [
+  const recentActivities = [
     {
-      title: "Attendance",
-      description: "Daily Attendance Record",
-      status: "Pending",
+      id: "1",
+      type: "report",
+      student: "John Doe",
+      action: "submitted daily log",
+      time: "2h ago",
     },
     {
-      title: "Letter of Acceptance",
-      description: "Company acceptance letter",
-      status: "Submitted",
+      id: "2",
+      type: "document",
+      student: "Jane Smith",
+      action: "uploaded acceptance letter",
+      time: "3h ago",
     },
     {
-      title: "ITF Form",
-      description: "Siwes form",
-      status: "Pending",
+      id: "3",
+      type: "visit",
+      student: "Mike Johnson",
+      action: "scheduled visit",
+      time: "5h ago",
     },
   ];
 
   return (
     <SafeAreaView className=" flex-1 bg-primary h-full">
-      <ScrollView className=" flex-1 px-4 py-6">
-        <View className="h-full w-full font-pregular">
-          <View className="flex flex-row justify-between items-center">
-            <View className="flex  justify-start items-start">
-              <Text className="text-gray-500 text-lg"> Welcome back 👋, </Text>
-              <Text className="text-2xl font-psemibold text-gray-700">
-                Supervisior
-              </Text>
-            </View>
-            {/* <TouchableOpacity>
-            <BellIcon className="text-red-600" />
-            </TouchableOpacity> */}
-          </View>
+      <ScrollView className="flex-1 px-4">
+        <View className="py-4">
+          <Text className="text-2xl font-bold text-gray-800 mb-6">
+            Supervisor Dashboard
+          </Text>
 
-          <View className="mt-4 p-4 border border-secondary-100 rounded-xl shadow-md">
-            <Text className="text-xl font-psemibold text-gray-600 mb-4">
-              SIWES Status
-            </Text>
-            <View className="flex-row justify-between">
-              <View className="items-center">
-                <Text className="text-base font-pmedium text-gray-600 mb-1">
-                  {" "}
-                  Supervisor{" "}
+          <View className="flex-row flex-wrap justify-between mb-6">
+            {stats.map((stat, index) => (
+              <ProfileCard key={index} className="w-[48%] mb-4 p-4">
+                <Text className="text-gray-600 mb-1">{stat.title}</Text>
+                <Text className="text-2xl font-bold text-gray-800">
+                  {stat.value}
                 </Text>
-                <Text className="text-base font-pbold text-gray-800">
-                  Engr Ola S
-                </Text>
-              </View>
-              <View className="items-center">
-                <Text className="text-base font-pmedium text-gray-600 mb-1">
-                  {" "}
-                  Company{" "}
-                </Text>
-                <Text className="text-base font-pbold text-gray-800">
-                  Radiant Tech
-                </Text>
-              </View>
-              <View className="items-center">
-                <Text className="text-base font-pmedium text-gray-600 mb-1">
-                  {" "}
-                  Days Left{" "}
-                </Text>
-                <Text className="text-base font-pbold text-gray-800">
-                  120/180
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          <View className="p-4">
-            <Text className="text-lg font-bold text-gray mb-4">
-              Quick Actions
-            </Text>
-            <View className="flex-row flex-wrap justify-between">
-              {quickActions.map((action, index) => (
-                <QuickActionCard
-                  key={index}
-                  icon={action.icon}
-                  title={action.title}
-                  description={action.description}
-                  onPress={() => router.replace(action.route)}
-                />
-              ))}
-            </View>
-          </View>
-
-          <View className="p-4">
-            <Text className="text-lg font-bold text-gray mb-4">
-              Required Documents
-            </Text>
-            {documents.map((doc, index) => (
-              <DocumentCard
-                key={index}
-                title={doc.title}
-                description={doc.description}
-                status={doc.status}
-              />
+              </ProfileCard>
             ))}
+          </View>
+
+          <View className="mb-6">
+            <Text className="text-xl font-bold text-gray-800 mb-4">
+              Recent Activities
+            </Text>
+            <FlatList
+              data={recentActivities}
+              keyExtractor={(item) => item.id}
+              scrollEnabled={false}
+              renderItem={({ item }) => (
+                <View className="bg-gray-50 p-4 rounded-lg mb-3">
+                  <Text className="text-gray-800">
+                    <Text className="font-semibold">{item.student}</Text>{" "}
+                    {item.action}
+                  </Text>
+                  <Text className="text-gray-500 text-sm mt-1">
+                    {item.time}
+                  </Text>
+                </View>
+              )}
+            />
+          </View>
+
+          <View className="flex-row flex-wrap justify-between">
+            <TouchableOpacity
+              className="bg-blue-600 w-[48%] py-4 px-6 rounded-lg"
+              onPress={() => router.push("/supervisor/students")}
+            >
+              <Text className="text-white text-center font-semibold">
+                View Students
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-green-600 w-[48%] py-4 px-6 rounded-lg"
+              onPress={() => router.push("/supervisor/schedule")}
+            >
+              <Text className="text-white text-center font-semibold">
+                Schedule Visits
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
