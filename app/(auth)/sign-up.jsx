@@ -1,27 +1,91 @@
-import { View, Text, ScrollView, Image } from 'react-native'
-import React, { useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import { Link, router } from "expo-router";
-import FormField from '../../components/FormField'
-import CustomButton from "../../components/CustomButton"
+import FormField from "../../components/FormField";
+import CustomButton from "../../components/CustomButton";
+import { registerStudent } from "../../lib/appwrite.js";
 
 const SignUp = () => {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [form, setForm] = useState({
-        name: "",
-        matric: "",
-        placementName: "",
-        placementAdd: "",
-        supervisorName: "",
-        password: "",
-    })
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [form, setForm] = useState({
+    fullName: "",
+    matric: "",
+    mail: "",
+    companyName: "",
+    companyAdd: "",
+    department: "",
+    level: "",
+    password: "",
+  });
 
-    const submit = () => {
+  const submit = async () => {
+    try {
+      setIsSubmitting(true);
+      setError("");
 
+      if (
+        form.fullName === "" ||
+        form.mail === "" ||
+        form.password === "" ||
+        form.matric === "" ||
+        form.companyAdd === "" ||
+        form.companyName === "" ||
+        form.department === "" ||
+        form.level === ""
+      ) {
+        throw new Error(
+          `Please fill in all required fields:`
+        )
+        }
+
+      // const requiredFields = [
+      //   "fullName",
+      //   "mail",
+      //   "password",
+      //   "matric",
+      //   "department",
+      //   "level",
+      //   "companyName",
+      //   "companyAdd",
+      // ];
+
+      // const missingFields = requiredFields.filter((field) => !FormData[field]);
+      // if (missingFields.length > 0) {
+      //   throw new Error(
+      //     `Please fill in all required fields: ${missingFields.join(", ")}`
+      //   );
+      // }
+
+      await registerStudent(form);
+
+      alert("Registration Successful");
+
+      router.replace("/log-in");
+    } catch (e) {
+      setError(e.message);
+      Alert.alert("Error", e.message);
+      throw new Error(e);
+    } finally {
+      setIsSubmitting(false);
     }
-    return (
-      <SafeAreaView className="bg-primary h-full">
+  };
+  return (
+    <SafeAreaView className="bg-primary h-full">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        className="flex-1"
+      >
         <ScrollView>
           <View className="w-full h-full px-5 py-6 font-pregular">
             <View className="flex flex-row gap-2 justify-end">
@@ -36,20 +100,20 @@ const SignUp = () => {
                 resizeMode="contain"
               />
             </View>
-            <Text className="text-3xl font-psemibold text-black-200 mt-10">
-              Sign Up
+            <Text className="text-2xl font-psemibold text-black-200 mt-10">
+              Student Registratioin
             </Text>
 
             <FormField
               title="Full Name"
-              value={form.name}
+              value={form.fullName}
               handleChangeText={(e) =>
                 setForm({
                   ...form,
-                  name: e,
+                  fullName: e,
                 })
               }
-              otherStyles="mt-8"
+              otherStyles="mt-4"
               placeholder="Enter Full Name"
             />
             <FormField
@@ -65,40 +129,65 @@ const SignUp = () => {
               placeholder="Enter Matric No"
             />
             <FormField
-              title="Placement Name"
-              value={form.placementName}
+              title="Email"
+              value={form.mail}
               handleChangeText={(e) =>
                 setForm({
                   ...form,
-                  placementName: e,
+                  mail: e,
                 })
               }
               otherStyles="mt-5"
-              placeholder="Enter Placement Name"
+              placeholder="Enter email"
+              keyboardType="email-address"
             />
             <FormField
-              title="Placement Address"
-              value={form.placementAdd}
+              title="Company Name"
+              value={form.companyName}
               handleChangeText={(e) =>
                 setForm({
                   ...form,
-                  placementAdd: e,
+                  companyName: e,
                 })
               }
               otherStyles="mt-5"
-              placeholder="Enter Placement Address"
+              placeholder="Enter Company Name"
             />
             <FormField
-              title="Supervisior Name"
-              value={form.supervisorName}
+              title="Company Address"
+              value={form.companyAdd}
               handleChangeText={(e) =>
                 setForm({
                   ...form,
-                  supervisorName: e,
+                  companyAdd: e,
                 })
               }
               otherStyles="mt-5"
-              placeholder="Enter Supervisior Name"
+              placeholder="Enter Company Address"
+            />
+            <FormField
+              title="Department"
+              value={form.department}
+              handleChangeText={(e) =>
+                setForm({
+                  ...form,
+                  department: e,
+                })
+              }
+              otherStyles="mt-5"
+              placeholder="Enter your department"
+            />
+            <FormField
+              title="Level"
+              value={form.level}
+              handleChangeText={(e) =>
+                setForm({
+                  ...form,
+                  level: e,
+                })
+              }
+              otherStyles="mt-5"
+              placeholder="Enter your level"
             />
             <FormField
               title="Password"
@@ -122,20 +211,21 @@ const SignUp = () => {
 
             <View className="justify-center pt-5 ">
               <Text className="text-center text-lg font-pregular ">
-                Already have an account? 
+                Already have an account?
                 <Link
                   href="/log-in"
                   className="text-lg font-psemibold text-secondary"
-                            >
-                                {" "}
-                Sign In
+                >
+                  {" "}
+                  Sign In
                 </Link>
               </Text>
             </View>
           </View>
         </ScrollView>
-      </SafeAreaView>
-    );
-}
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+};
 
-export default SignUp
+export default SignUp;

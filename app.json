@@ -15,14 +15,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "package": "com.radiant.auraa"
+      "package": "com.radiant.siwes"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.radiant.auraa"
+      "package": "com.radiant.siwes"
     },
     "web": {
       "favicon": "./assets/favicon.png"

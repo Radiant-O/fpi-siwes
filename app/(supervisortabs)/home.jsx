@@ -1,18 +1,17 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
-import {  useRouter } from "expo-router";
-import { BellIcon, BookOpen, Calendar, ClipboardCheck } from "lucide-react-native";
+import { useRouter } from "expo-router";
+import {
+  BellIcon,
+  BookOpen,
+  Calendar,
+  ClipboardCheck,
+} from "lucide-react-native";
 import QuickActionCard from "../../components/QuickActionCard";
 import DocumentCard from "../../components/DocumentCard";
 
 const Home = () => {
-
   const router = useRouter();
 
   const quickActions = [
@@ -20,7 +19,7 @@ const Home = () => {
       icon: ClipboardCheck,
       title: "Daily Log",
       description: "Record today's activities",
-      route: "(tabs)/logtab",
+      route: "(studenttabs)/logtab",
     },
     {
       icon: BookOpen,
@@ -62,7 +61,7 @@ const Home = () => {
             <View className="flex  justify-start items-start">
               <Text className="text-gray-500 text-lg"> Welcome back 👋, </Text>
               <Text className="text-2xl font-psemibold text-gray-700">
-                Radiant
+                Supervisior
               </Text>
             </View>
             {/* <TouchableOpacity>

@@ -6,18 +6,22 @@ import { Link, router } from "expo-router";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 
-const SignUp = () => {
+const SupervisiorReg = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
-    mail: "",
+    name: "",
+      mail: "",
+      department: "",
+    phoneNumber: "",
     password: "",
   });
 
-  const submit = () => {
-    router.push(
-      '/(studenttabs)/home'
+    const submit = () => {
+       router.push(
+      '/(supervisortabs)/home'
     )
   };
+  
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
@@ -34,12 +38,22 @@ const SignUp = () => {
               resizeMode="contain"
             />
           </View>
-          <Text className="text-2xl font-psemibold text-black-200 mt-10">
-            Welcome back 👋
+          <Text className="text-2xl font-psemibold text-black-200 mt-6">
+            Supervisor Registration
           </Text>
-          <Text className="text-xl font-psemibold text-black-200 mt-2">
-            Enter details to login
-          </Text>
+
+          <FormField
+            title="Full Name"
+            value={form.name}
+            handleChangeText={(e) =>
+              setForm({
+                ...form,
+                name: e,
+              })
+            }
+            otherStyles="mt-5"
+            placeholder="Enter Full Name"
+          />
           <FormField
             title="Email"
             value={form.mail}
@@ -49,11 +63,35 @@ const SignUp = () => {
                 mail: e,
               })
             }
-            otherStyles="mt-8"
-            placeholder="Enter your email"
+            otherStyles="mt-5"
+            placeholder="Enter email"
             keyboardType="email-address"
           />
-
+          <FormField
+            title="Department"
+            value={form.department}
+            handleChangeText={(e) =>
+              setForm({
+                ...form,
+                department: e,
+              })
+            }
+            otherStyles="mt-5"
+            placeholder="Enter your department"
+          />
+          <FormField
+            title="Phone Number"
+            value={form.phoneNumber}
+            handleChangeText={(e) =>
+              setForm({
+                ...form,
+                phoneNumber: e,
+              })
+            }
+            otherStyles="mt-5"
+            placeholder="Enter your phone number"
+          />
+          
           <FormField
             title="Password"
             value={form.password}
@@ -68,7 +106,7 @@ const SignUp = () => {
           />
 
           <CustomButton
-            title="Sign In"
+            title="Sign Up"
             containerStyles="mt-8"
             isLoading={isSubmitting}
             handlePress={submit}
@@ -76,13 +114,13 @@ const SignUp = () => {
 
           <View className="justify-center pt-5 ">
             <Text className="text-center text-lg font-pregular ">
-              Don't have an account?
+              Already have an account?
               <Link
-                href="/register-type"
+                href="/log-in"
                 className="text-lg font-psemibold text-secondary"
               >
                 {" "}
-                Sign Up
+                Sign In
               </Link>
             </Text>
           </View>
@@ -92,4 +130,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SupervisiorReg;

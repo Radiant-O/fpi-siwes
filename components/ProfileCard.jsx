@@ -3,10 +3,10 @@ import React from 'react'
 
 const ProfileCard = ({ children, className }) => {
   return (
-    <View className={`bg-white rounded-lg shadow-sm border border-gray-100 ${className}`}>
-      { children}
+    <View className={`bg-primary rounded-lg shadow-sm mb-8 p-4  ${className}`}>
+      {children}
     </View>
-  )
+  );
 }
 
 export default ProfileCard

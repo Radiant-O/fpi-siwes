@@ -18,6 +18,18 @@ const AuthLayout = () => {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="register-type"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="supervisor-signup"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
 
       <StatusBar backgroundColor="#161622" barStyle="dark-content" />

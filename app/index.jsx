@@ -39,8 +39,8 @@ export default function App() {
             </Text>
             <View className="w-full mt-[50%]">
               <CustomButton
-                title="Get Started"
-                handlePress={() => router.push("/log-in")}
+                title="Continue"
+                handlePress={() => router.push("/register-type")}
                 containerStyles="w-full"
               />
             </View>
