@@ -27,33 +27,32 @@ const SupervisiorReg = () => {
 
   const submit = async () => {
       
-    router.push("/(supervisortabs)/home")
-      // try {
-      //   setIsSubmitting(true);
-      //   setError("");
+      try {
+        setIsSubmitting(true);
+        setError("");
 
-      //   if (
-      //     form.fullName === "" ||
-      //     form.email === "" ||
-      //     form.password === "" ||
-      //     form.department === "" ||
-      //     form.phoneNumber === ""
-      //   ) {
-      //     throw new Error(`Please fill in all required fields:`);
-      //   }
+        if (
+          form.fullName === "" ||
+          form.email === "" ||
+          form.password === "" ||
+          form.department === "" ||
+          form.phoneNumber === ""
+        ) {
+          throw new Error(`Please fill in all required fields:`);
+        }
 
-      //   await registerSupervisor(form);
+        await registerSupervisor(form);
 
-      //   alert("Registration Successful");
+        alert("Registration Successful");
 
-      //   router.replace("/log-in");
-      // } catch (e) {
-      //   setError(e.message);
-      //   Alert.alert("Error", e.message);
-      //   throw new Error(e);
-      // } finally {
-      //   setIsSubmitting(false);
-      // }
+        router.replace("/log-in");
+      } catch (e) {
+        setError(e.message);
+        Alert.alert("Error", e.message);
+        throw new Error(e);
+      } finally {
+        setIsSubmitting(false);
+      }
     };
   
   return (

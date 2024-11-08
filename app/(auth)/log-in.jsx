@@ -12,10 +12,10 @@ import { images } from "../../constants";
 import { Link, router } from "expo-router";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
-import { signIn, getCurrentUser} from "../../lib/appwrite";
+import { signIn, getCurrentUser } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
-const SignUp = () => {
+const SignIn = () => {
   const { setUser, setIsLoggedIn } = useGlobalContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -27,17 +27,18 @@ const SignUp = () => {
     try {
       setIsSubmitting(true);
 
-      await signIn(form.mail, form.password)
+      await signIn(form.mail, form.password);
       const res = await getCurrentUser();
-      // console.log(res)
+      console.log("Profile:", res);
+
       setUser(res);
       setIsLoggedIn(true);
-       if (res.profile.userType === "student") {
-         router.replace("/(studenttabs)/home");
-       } else if (res.profile.userType === "supervisor") {
-         router.replace("/(app)/(supervisortab)/home");
-       }
 
+      if (res.userType === "student") {
+        router.replace("/(studenttabs)/home");
+      } else if (res.userType === "supervisor") {
+        router.replace("/(app)/(supervisortab)/home");
+      }
     } catch (e) {
       // alert('Invalid email or Password');
       throw new Error("Login Error:", e.message);
@@ -125,4 +126,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;
