@@ -5,6 +5,7 @@ import {
   ScrollView,
   Platform,
   Image,
+  Alert,
   TouchableOpacity,
 } from "react-native";
 import { useState } from "react";
@@ -15,8 +16,11 @@ import { icons } from "../../constants";
 import * as ImagePicker from "expo-image-picker";
 import { ArrowLeftIcon, CheckIcon } from "lucide-react-native";
 import { router } from "expo-router";
+import { uploadDailylog } from "../../lib/appwrite";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const DailyLog = () => {
+  const { user } = useGlobalContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [logData, setLogData] = useState({
     activities: "",
@@ -40,7 +44,37 @@ const DailyLog = () => {
     }
   };
 
-  const submit = () => {};
+  const submit = async () => {
+    if (
+      !logData.activities ||
+      !logData.learnings ||
+      !logData.challenges ||
+      !logData.logImage
+    ) {
+      return Alert.alert("Error", "Please fill in all the fields");
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // console.log("logData:", logData);
+      await uploadDailylog({ ...logData, studentId: user.$id });
+
+      Alert.alert("Log Submitted successfully");
+      router.push("(studenttabs)/home");
+    } catch (err) {
+      Alert.alert("Error", err.message);
+      throw new Error(err);
+    } finally {
+      setLogData({
+        activities: "",
+        learnings: "",
+        challenges: "",
+        logImage: null,
+      });
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-primary">
       <KeyboardAvoidingView
@@ -49,8 +83,10 @@ const DailyLog = () => {
       >
         <ScrollView className="flex-1 px-4">
           <View className="py-4 font">
-            <TouchableOpacity className="mb-4"
-            onPress={() => router.push("/home")}>
+            <TouchableOpacity
+              className="mb-4"
+              onPress={() => router.push("(studenttabs)/home")}
+            >
               <ArrowLeftIcon size={24} className="text-gray-600" />
             </TouchableOpacity>
             <Text className="text-2xl font-psemibold text-gray-700 mb-4">

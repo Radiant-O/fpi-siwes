@@ -29,7 +29,7 @@ const SignIn = () => {
 
       await signIn(form.mail, form.password);
       const res = await getCurrentUser();
-      console.log("Profile:", res);
+      // console.log("Profile:", res);
 
       setUser(res);
       setIsLoggedIn(true);
@@ -37,7 +37,7 @@ const SignIn = () => {
       if (res.userType === "student") {
         router.replace("/(studenttabs)/home");
       } else if (res.userType === "supervisor") {
-        router.replace("/(app)/(supervisortab)/home");
+        router.replace("/(supervisortabs)/home");
       }
     } catch (e) {
       // alert('Invalid email or Password');

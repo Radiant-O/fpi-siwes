@@ -3,50 +3,46 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import { useRouter } from "expo-router";
 import ProfileCard from "../../components/ProfileCard";
+import { useGlobalContext } from "../../context/GlobalProvider";
+import useAppwrite from "../../lib/useAppwrite";
+import { pendingReports } from "../../lib/appwrite";
 
 const Home = () => {
+  const { user } = useGlobalContext();
+  
   const router = useRouter();
 
+  const { data: reports } = useAppwrite(pendingReports)
+  console.log("reports:", reports)
+
   const stats = [
-    { title: "Students", value: "12" },
-    { title: "Pending Reviews", value: "5" },
+    { title: "Students", value: "2" },
+    { title: "Pending Reviews", value: reports.length },
     { title: "This Week Report", value: "8" },
     { title: "Visits Due", value: "3" },
-  ];
-
-  const recentActivities = [
-    {
-      id: "1",
-      type: "report",
-      student: "John Doe",
-      action: "submitted daily log",
-      time: "2h ago",
-    },
-    {
-      id: "2",
-      type: "document",
-      student: "Jane Smith",
-      action: "uploaded acceptance letter",
-      time: "3h ago",
-    },
-    {
-      id: "3",
-      type: "visit",
-      student: "Mike Johnson",
-      action: "scheduled visit",
-      time: "5h ago",
-    },
   ];
 
   return (
     <SafeAreaView className=" flex-1 bg-primary h-full">
       <ScrollView className="flex-1 px-4">
         <View className="py-4">
-          <Text className="text-2xl font-bold text-gray-800 mb-6">
-            Supervisor Dashboard
-          </Text>
+          <View className="flex flex-row justify-between items-center">
+            <View className="flex  justify-start items-start">
+              <Text className="text-gray-500 text-lg"> Welcome back 👋, </Text>
+              <Text className="text-2xl font-psemibold text-gray-700">
+                {user?.fullName}
+              </Text>
+            </View>
+            {/* <TouchableOpacity>
+            <BellIcon className="text-red-600" />
+            </TouchableOpacity> */}
+          </View>
 
-          <View className="flex-row flex-wrap justify-between mb-6">
+          {/* <Text className="text-2xl font-bold text-gray-800 mb-6">
+            Supervisor Dashboard
+          </Text> */}
+
+          <View className="flex-row flex-wrap justify-between mt-5 mb-6">
             {stats.map((stat, index) => (
               <ProfileCard key={index} className="w-[48%] mb-4 p-4">
                 <Text className="text-gray-600 mb-1">{stat.title}</Text>
@@ -59,24 +55,33 @@ const Home = () => {
 
           <View className="mb-6">
             <Text className="text-xl font-bold text-gray-800 mb-4">
-              Recent Activities
+              Recent Submitted Reports
             </Text>
             <FlatList
-              data={recentActivities}
-              keyExtractor={(item) => item.id}
+              data={reports}
+              keyExtractor={(item) => item.$id}
               scrollEnabled={false}
               renderItem={({ item }) => (
-                <View className="bg-gray-50 p-4 rounded-lg mb-3">
+                <TouchableOpacity className="bg-gray-50 p-4 rounded-lg mb-3"
+                  onPress={() => router.push()}
+                >
                   <Text className="text-gray-800">
-                    <Text className="font-semibold">{item.student}</Text>{" "}
-                    {item.action}
+                    <Text className="font-semibold">
+                      Week {item.weekNumber} Report
+                    </Text>{" "}
                   </Text>
                   <Text className="text-gray-500 text-sm mt-1">
-                    {item.time}
+                    {item.matricNumber} Subbmitted on{" "}
+                    {new Date(item.submissiondate).toLocaleDateString()}
                   </Text>
-                </View>
+                </TouchableOpacity>
               )}
             />
+            {reports.length === 0 && (
+              <Text className="text-center text-gray-500">
+                No pending reports to review
+              </Text>
+            )}
           </View>
 
           <View className="flex-row flex-wrap justify-between">

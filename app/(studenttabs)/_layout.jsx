@@ -52,15 +52,15 @@ const TabLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="logtab"
+          name="view-dailylog"
           options={{
             title: "Log",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.plus}
+                icon={icons.bookmark}
                 color={color}
-                name="Add Log"
+                name="View Log"
                 focused={focused}
               />
             ),

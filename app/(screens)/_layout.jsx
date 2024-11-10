@@ -7,7 +7,7 @@ const ScreenLayout = () => {
     <>
       <Stack>
         <Stack.Screen
-          name="monthly-report"
+          name="logtab"
           options={{
             headerShown: false,
           }}

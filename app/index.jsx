@@ -1,16 +1,34 @@
-import { Image, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  Image,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "../constants";
 import CustomButton from "../components/CustomButton";
 import { router, Redirect } from "expo-router";
 import { useGlobalContext } from "../context/GlobalProvider";
+import { useEffect } from "react";
 
 export default function App() {
+  const { isLoading, isLoggedIn, user } = useGlobalContext();
 
-    const { isLoading, isLoggedIn } = useGlobalContext();
-   if (!isLoading && isLoggedIn) return <Redirect href="/home" />;
+  useEffect(() => {
+    if (!isLoading && isLoggedIn && user) {
+      // Add console.log to debug
+      console.log("Auth State:", { isLoading, isLoggedIn, user });
+
+      if (user.userType === "student") {
+        router.replace("/(studenttabs)/home");
+      } else if (user.userType === "supervisor") {
+        router.replace("/(supervisortabs)/home");
+      }
+    }
+  }, [isLoading, isLoggedIn, user]);
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -54,7 +72,7 @@ export default function App() {
         </View>
       </ScrollView>
 
-      <StatusBar backgroundColor="#161622" barStyle = "dark-content" />
+      <StatusBar backgroundColor="#161622" barStyle="dark-content" />
     </SafeAreaView>
   );
 }

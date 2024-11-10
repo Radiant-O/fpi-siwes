@@ -5,6 +5,7 @@ import {
   ScrollView,
   Platform,
   Image,
+  Alert,
   TouchableOpacity,
 } from "react-native";
 import { useState } from "react";
@@ -15,8 +16,11 @@ import { icons } from "../../constants";
 import * as ImagePicker from "expo-image-picker";
 import { ArrowLeftIcon, CheckIcon } from "lucide-react-native";
 import { router } from "expo-router";
+import { useGlobalContext } from "../../context/GlobalProvider";
+import { uploadWeeklylog } from "../../lib/appwrite";
 
 const WeeklyReport = () => {
+  const { user } = useGlobalContext()
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [weekData, setWeekData] = useState({
     weekNumber: "",
@@ -27,7 +31,39 @@ const WeeklyReport = () => {
 
  
 
-  const submit = () => {};
+   const submit = async () => {
+     if (
+       !weekData.weekNumber ||
+       !weekData.summary ||
+       !weekData.skills ||
+       !weekData.challenges
+     ) {
+       return Alert.alert("Error", "Please fill in all the fields");
+     }
+
+     setIsSubmitting(true);
+
+     try {
+       await uploadWeeklylog({
+         ...weekData,
+         studentId: user.$id,
+         studentMatric: user.matricNumber,
+       });
+
+       Alert.alert("Weekly Report Submitted successfully");
+       router.push("(studenttabs)/home");
+     } catch (err) {
+       Alert.alert("Error", err.message);
+       throw new Error(err);
+     } finally {
+       setWeekData({
+         weekNumber: "",
+         summary: "",
+         skills: "",
+         challenges: "",
+       });
+     }
+   };
   return (
     <SafeAreaView className="flex-1 bg-primary">
       <KeyboardAvoidingView
@@ -47,7 +83,7 @@ const WeeklyReport = () => {
             </Text>
 
             <FormField
-              title="Week Number"
+              title="Week Number*"
               value={weekData.weekNumber}
               keyboard="number-pad"
               handleChangeText={(e) =>
@@ -60,7 +96,7 @@ const WeeklyReport = () => {
               placeholder="Enter week number..."
             />
             <FormField
-              title="Summary of activities this week"
+              title="Summary of activities this week*"
               value={weekData.summary}
               handleChangeText={(e) =>
                 setWeekData({
@@ -73,7 +109,7 @@ const WeeklyReport = () => {
               placeholder="Provide a detailed summary..."
             />
             <FormField
-              title="Skills acquired"
+              title="Skills acquired*"
               value={weekData.skills}
               handleChangeText={(e) =>
                 setWeekData({
@@ -87,7 +123,7 @@ const WeeklyReport = () => {
             />
 
             <FormField
-              title="Challenges and Solutions"
+              title="Challenges and Solutions*"
               value={weekData.challenges}
               handleChangeText={(e) =>
                 setWeekData({

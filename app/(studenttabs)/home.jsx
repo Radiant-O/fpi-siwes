@@ -11,21 +11,37 @@ import {
 import QuickActionCard from "../../components/QuickActionCard";
 import DocumentCard from "../../components/DocumentCard";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import { fetchWeeklyProgress } from "../../lib/appwrite";
+import useAppwrite from "../../lib/useAppwrite";
 
 const Home = () => {
 
-   const { user, setUser, setIsLoggedIn } = useGlobalContext();
+   const { user } = useGlobalContext();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [userProfile, setUserProfile] = useState(null)
-  // const [documents, setDocuments ] = useState([])
+
+
+  const { data: reports } = useAppwrite(() => fetchWeeklyProgress(user.$id));
+
+  // console.log(reports)
+  
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'approved':
+        return 'bg-secondary-200';
+      case "pending":
+        return "bg-yellow-500"
+      default:
+        return "bg-gray-400";
+    }
+  };
 
   const quickActions = [
     {
       icon: ClipboardCheck,
       title: "Daily Log",
       description: "Record today's activities",
-      route: "(studenttabs)/logtab",
+      route: "(screens)/logtab",
     },
     {
       icon: BookOpen,
@@ -41,27 +57,8 @@ const Home = () => {
     // },
   ];
 
-  const loadDashboard = async () => {
-    
+  const loadDashboard = async () => { 
   }
-  const documents = [
-    {
-      title: "Attendance",
-      description: "Daily Attendance Record",
-      status: "Pending",
-    },
-    {
-      title: "Letter of Acceptance",
-      description: "Company acceptance letter",
-      status: "Submitted",
-    },
-    {
-      title: "ITF Form",
-      description: "Siwes form",
-      status: "Pending",
-    },
-  ];
-
   const calculateDaysLeft = () => {
     if (!user?.startDate) return "Not Started";
 
@@ -152,13 +149,13 @@ const Home = () => {
 
           <View className="p-4">
             <Text className="text-lg font-bold text-gray mb-4">
-              Required Documents
+              Weekly Update
             </Text>
-            {documents.map((doc, index) => (
+            {reports.map((doc, index) => (
               <DocumentCard
                 key={index}
-                title={doc.title}
-                description={doc.description}
+                title={`Week ${doc.weekNumber} report Submitted`}
+                description={ new Date(doc.submissiondate).toLocaleDateString()}
                 status={doc.status}
               />
             ))}

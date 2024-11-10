@@ -85,7 +85,7 @@ const SupervisiorReg = () => {
               handleChangeText={(e) =>
                 setForm({
                   ...form,
-                  name: e,
+                  fullName: e,
                 })
               }
               otherStyles="mt-5"
@@ -97,7 +97,7 @@ const SupervisiorReg = () => {
               handleChangeText={(e) =>
                 setForm({
                   ...form,
-                  mail: e,
+                  email: e,
                 })
               }
               otherStyles="mt-5"
