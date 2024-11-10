@@ -18,6 +18,12 @@ const ScreenLayout = () => {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="(report)/[id]"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
 
       <StatusBar backgroundColor="#161622" barStyle="dark-content" />

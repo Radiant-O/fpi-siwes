@@ -12,15 +12,24 @@ const Home = () => {
   
   const router = useRouter();
 
-  const { data: reports } = useAppwrite(pendingReports)
-  console.log("reports:", reports)
+  const { data: reports = [], isLoading } = useAppwrite(pendingReports)
+  // console.log("reports:", reports)
 
   const stats = [
     { title: "Students", value: "2" },
-    { title: "Pending Reviews", value: reports.length },
-    { title: "This Week Report", value: "8" },
+    { title: "Pending Reviews", value: reports.length || "0" },
     { title: "Visits Due", value: "3" },
   ];
+
+  if (isLoading) {
+    return (
+      <SafeAreaView className="flex-1 bg-primary">
+        <View className="flex-1 justify-center items-center">
+          <Text>Loading...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className=" flex-1 bg-primary h-full">
@@ -62,16 +71,17 @@ const Home = () => {
               keyExtractor={(item) => item.$id}
               scrollEnabled={false}
               renderItem={({ item }) => (
-                <TouchableOpacity className="bg-gray-50 p-4 rounded-lg mb-3"
-                  onPress={() => router.push()}
+                <TouchableOpacity
+                  className="bg-gray-50 p-4 rounded-lg mb-3"
+                  onPress={() => router.push(`/(screens)/(report)/${item.$id}`)}
                 >
                   <Text className="text-gray-800">
                     <Text className="font-semibold">
                       Week {item.weekNumber} Report
                     </Text>{" "}
                   </Text>
-                  <Text className="text-gray-500 text-sm mt-1">
-                    {item.matricNumber} Subbmitted on{" "}
+                  <Text className="text-gray-500 text-md mt-1">
+                    <Text className="font-psemibold text-lg">{item.studentMatric}</Text> Subbmitted on{" "}
                     {new Date(item.submissiondate).toLocaleDateString()}
                   </Text>
                 </TouchableOpacity>

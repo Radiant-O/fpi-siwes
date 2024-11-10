@@ -20,7 +20,7 @@ export default function App() {
   useEffect(() => {
     if (!isLoading && isLoggedIn && user) {
       // Add console.log to debug
-      console.log("Auth State:", { isLoading, isLoggedIn, user });
+      // console.log("Auth State:", { isLoading, isLoggedIn, user });
 
       if (user.userType === "student") {
         router.replace("/(studenttabs)/home");
