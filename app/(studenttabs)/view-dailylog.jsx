@@ -9,8 +9,9 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 
 const DailyLogs = () => {
   const { user } = useGlobalContext();
-  const { data: logs } = useAppwrite(() => fetchDailyLog(user.$id));
-
+  const { data: logs, isLoading } = useAppwrite(() => fetchDailyLog(user.$id));
+  
+  console.log(logs)
   const [loading, setLoading] = useState(true);
 
   const [refreshing, setRefreshing] = useState(false);
@@ -21,15 +22,15 @@ const DailyLogs = () => {
     setRefreshing(false);
   };
 
-  // if (loading) {
-  //   return (
-  //     <SafeAreaView className="flex-1 bg-white">
-  //       <View className="flex-1 justify-center items-center">
-  //         <Text>Loading...</Text>
-  //       </View>
-  //     </SafeAreaView>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <View className="flex-1 justify-center items-center">
+          <Text>Loading...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">

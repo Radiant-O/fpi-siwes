@@ -48,6 +48,7 @@ const WeeklyReport = () => {
          ...weekData,
          studentId: user.$id,
          studentMatric: user.matricNumber,
+         department: user.department,
        });
 
        Alert.alert("Weekly Report Submitted successfully");

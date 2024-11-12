@@ -15,22 +15,22 @@ import { fetchWeeklyProgress } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppwrite";
 
 const Home = () => {
-
-   const { user } = useGlobalContext();
+  const { user } = useGlobalContext();
+  console.log(user)
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  // const [weeksRemaining, setWeeksRemaining] = useState(16);
 
+  const { data: reports, isLoading } = useAppwrite(() => fetchWeeklyProgress(user.$id));
 
-  const { data: reports } = useAppwrite(() => fetchWeeklyProgress(user.$id));
+  // //console.log(reports)
 
-  // console.log(reports)
-  
   const getStatusColor = (status) => {
     switch (status) {
-      case 'approved':
-        return 'bg-secondary-200';
+      case "approved":
+        return "bg-secondary-200";
       case "pending":
-        return "bg-yellow-500"
+        return "bg-yellow-500";
       default:
         return "bg-gray-400";
     }
@@ -49,35 +49,38 @@ const Home = () => {
       description: "Submit weekly summary",
       route: "/weekly-report",
     },
-    // {
-    //   icon: Calendar,
-    //   title: "Monthly Report",
-    //   description: "Submit monthly report",
-    //   route: "/monthly-report",
-    // },
+    
   ];
 
-  const loadDashboard = async () => { 
-  }
-  const calculateDaysLeft = () => {
-    if (!user?.startDate) return "Not Started";
+  // const calculateDaysLeft = () => {
+  //   if (!user?.startDate) return "Not Started";
 
-    const start = new Date(user.startDate);
+  //   const start = new Date(user.startDate);
+  //   const now = new Date();
+  //   const totalDays = 120;
+  //   const daysElapsed = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  //   return `${Math.max(0, totalDays - daysElapsed)}/${totalDays} Days`;
+  // };
+
+  const calculateWeeksRemaining = (date) => {
+    const end = new Date(date);
     const now = new Date();
-    const totalDays = 120;
-    const daysElapsed = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-    return `${Math.max(0, totalDays - daysElapsed)}/${totalDays} Days`;
+    const diffTime = end - now;
+    const diffWeeks = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 7));
+    return `${Math.max(0, diffWeeks)} Weeks`;
   };
 
-  // if (loading) {
-  //   return (
-  //     <SafeAreaView className="flex-1 bg-white">
-  //       <View className="flex-1 justify-center items-center">
-  //         <Text className="text-gray-600">Loading...</Text>
-  //       </View>
-  //     </SafeAreaView>
-  //   );
-  // }
+ 
+
+  if (isLoading) {
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-gray-600">Loading...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className=" flex-1 bg-primary">
@@ -106,7 +109,7 @@ const Home = () => {
                   Supervisor{" "}
                 </Text>
                 <Text className="text-base font-pbold text-gray-800">
-                  {user?.supervisor || "Not Assigned"}
+                  {user?.supervisorName || "Not Assigned"}
                 </Text>
               </View>
               <View className="items-center">
@@ -121,10 +124,10 @@ const Home = () => {
               <View className="items-center">
                 <Text className="text-base font-pmedium text-gray-600 mb-1">
                   {" "}
-                  Days Left{" "}
+                  Weeks Left{" "}
                 </Text>
                 <Text className="text-base font-pbold text-gray-800">
-                  {calculateDaysLeft()}
+                  {calculateWeeksRemaining(user?.endDate)}
                 </Text>
               </View>
             </View>
@@ -155,7 +158,7 @@ const Home = () => {
               <DocumentCard
                 key={index}
                 title={`Week ${doc.weekNumber} report Submitted`}
-                description={ new Date(doc.submissiondate).toLocaleDateString()}
+                description={new Date(doc.submissiondate).toLocaleDateString()}
                 status={doc.status}
               />
             ))}

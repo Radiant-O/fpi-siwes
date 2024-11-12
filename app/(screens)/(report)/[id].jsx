@@ -16,7 +16,7 @@ const ReviewPage = () => {
   const { user } = useGlobalContext();
   const { data: reports, isLoading } = useAppwrite(() => loadReport(id));
 
-  console.log(reports)
+  reports;
   const approveReport = async () => {
     try {
       setIsSubmitting(true);

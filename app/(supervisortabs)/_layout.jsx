@@ -52,15 +52,15 @@ const TabLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="assessmentform"
+          name="student"
           options={{
-            title: "Log",
+            title: "Student",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.bookmark}
                 color={color}
-                name="Assessment"
+                name="Student"
                 focused={focused}
               />
             ),

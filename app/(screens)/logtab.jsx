@@ -57,7 +57,7 @@ const DailyLog = () => {
     setIsSubmitting(true);
 
     try {
-      // console.log("logData:", logData);
+      // //console.log("logData:", logData);
       await uploadDailylog({ ...logData, studentId: user.$id });
 
       Alert.alert("Log Submitted successfully");

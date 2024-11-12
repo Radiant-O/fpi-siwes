@@ -4,7 +4,7 @@ import {
   ScrollView,
   Image,
   KeyboardAvoidingView,
-  Platform
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,13 +23,13 @@ const SignIn = () => {
     password: "",
   });
 
-  const submit = async() => {
+  const submit = async () => {
     try {
       setIsSubmitting(true);
 
       await signIn(form.mail, form.password);
       const res = await getCurrentUser();
-      // console.log("Profile:", res);
+      // //console.log("Profile:", res);
 
       setUser(res);
       setIsLoggedIn(true);
@@ -42,9 +42,8 @@ const SignIn = () => {
     } catch (e) {
       // alert('Invalid email or Password');
       throw new Error("Login Error:", e.message);
-
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   };
   return (
