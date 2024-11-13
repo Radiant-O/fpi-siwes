@@ -11,10 +11,11 @@ import { router, useLocalSearchParams } from "expo-router";
 import CustomButton from "../../../components/CustomButton";
 import { loadStudentDetails, submitGrade } from "../../../lib/appwrite";
 import useAppwrite from "../../../lib/useAppwrite";
+import { ArrowLeftIcon } from "lucide-react-native";
 
 const AssessmentForm = () => {
-    const { id } = useLocalSearchParams();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const { id } = useLocalSearchParams();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [grades, setGrades] = useState({
     weeklyLogs: 0,
     technicalReport: 0,
@@ -61,22 +62,26 @@ const AssessmentForm = () => {
     } finally {
       setIsSubmitting(false);
     }
-    };
-    
-    if (student.grades > 0) {
-      return (
-        <SafeAreaView className="flex-1 bg-primary">
-          <View className="bg-white p-8 rounded-lg border border-gray-200 mb-6">
-            <Text className="text-2xl font-bold text-gray-800">
-              {student?.fullName}
-            </Text>
-            <Text className="text-gray-500 mt-1">{student?.matricNumber}</Text>
-            <Text className="text-gray-500 mt-1">{student?.companyName}</Text>
-            
-                  <View className="bg-gray-50 p-4 rounded-lg">
-            <Text className="text-lg font-semibold text-gray-800">
-              Graded
-            </Text>
+  };
+
+  if (student.grades > 0) {
+    return (
+      <SafeAreaView className="flex-1 bg-primary">
+        <View className="bg-white p-8 rounded-lg border border-gray-200 mb-6">
+          <TouchableOpacity
+            className="mb-4"
+            onPress={() => router.push("/(supervisortabs)/home")}
+          >
+            <ArrowLeftIcon size={24} className="text-gray-600" />
+          </TouchableOpacity>
+          <Text className="text-2xl font-bold text-gray-800">
+            {student?.fullName}
+          </Text>
+          <Text className="text-gray-500 mt-1">{student?.matricNumber}</Text>
+          <Text className="text-gray-500 mt-1">{student?.companyName}</Text>
+
+          <View className="bg-gray-50 p-4 rounded-lg">
+            <Text className="text-lg font-semibold text-gray-800">Graded</Text>
             <Text className="text-3xl font-bold text-blue-600 mt-2">
               {student?.grades}%
             </Text>
@@ -84,22 +89,26 @@ const AssessmentForm = () => {
               Grade: {student?.letterGrade}
             </Text>
           </View>
-          </View>
-        </SafeAreaView>
-      );
-    }
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="flex-1 px-4 py-6">
         <View className="bg-white p-4 rounded-lg border border-gray-200 mb-6">
+          <TouchableOpacity
+            className="mb-4"
+            onPress={() => router.push("/(studenttabs)/home")}
+          >
+            <ArrowLeftIcon size={24} className="text-gray-600" />
+          </TouchableOpacity>
           <Text className="text-2xl font-bold text-gray-800">
             {student?.fullName}
           </Text>
           <Text className="text-gray-500 mt-1">{student?.matricNumber}</Text>
-                  <Text className="text-gray-500 mt-1">{student?.companyName}</Text>
-                  
-                  
+          <Text className="text-gray-500 mt-1">{student?.companyName}</Text>
         </View>
 
         <View className="space-y-4">
@@ -182,7 +191,7 @@ const AssessmentForm = () => {
           <CustomButton
             title="Submit Grades"
             handlePress={approveReport}
-            isLoading= {isSubmitting}
+            isLoading={isSubmitting}
           />
         </View>
       </ScrollView>

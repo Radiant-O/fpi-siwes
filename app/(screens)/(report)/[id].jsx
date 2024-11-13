@@ -7,6 +7,7 @@ import { useGlobalContext } from "../../../context/GlobalProvider";
 import useAppwrite from "../../../lib/useAppwrite";
 import { router, useLocalSearchParams } from "expo-router";
 import FormField from "../../../components/FormField";
+import { ArrowLeftIcon } from "lucide-react-native";
 
 const ReviewPage = () => {
   const { id } = useLocalSearchParams();
@@ -43,6 +44,12 @@ const ReviewPage = () => {
   return (
     <SafeAreaView className="flex-1 bg-primary">
       <ScrollView className="flex-1 px-4 py-6">
+        <TouchableOpacity
+          className="mb-4"
+          onPress={() => router.push("/(supervisortabs)/home")}
+        >
+          <ArrowLeftIcon size={24} className="text-gray-600" />
+        </TouchableOpacity>
         <Text className="text-2xl font-bold text-gray-800 mb-6">
           Week {reports?.weekNumber} Report
         </Text>

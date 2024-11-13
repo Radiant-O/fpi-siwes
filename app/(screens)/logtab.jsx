@@ -85,7 +85,7 @@ const DailyLog = () => {
           <View className="py-4 font">
             <TouchableOpacity
               className="mb-4"
-              onPress={() => router.push("(studenttabs)/home")}
+              onPress={() => router.push("/(studenttabs)/home")}
             >
               <ArrowLeftIcon size={24} className="text-gray-600" />
             </TouchableOpacity>
