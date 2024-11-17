@@ -74,7 +74,7 @@ const Home = () => {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1 bg-white">
+      <SafeAreaView className="flex-1 bg-primary">
         <View className="flex-1 justify-center items-center">
           <Text className="text-gray-600">Loading...</Text>
         </View>

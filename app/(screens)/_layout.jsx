@@ -32,7 +32,7 @@ const ScreenLayout = () => {
         />
       </Stack>
 
-      <StatusBar backgroundColor="#161622" barStyle="dark-content" />
+      {/* <StatusBar backgroundColor="#161622" barStyle="dark-content" /> */}
     </>
   );
 }
